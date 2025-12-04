@@ -12,14 +12,14 @@ class Text2SQLPipeline:
         self.con = duckdb.connect(database=db_path)
         
     def load_data(self, csv_path: str, table_name: str = "claims"):
-        print(f"📥 Loading data from {csv_path} into DuckDB table '{table_name}'...")
+        print(f" Loading data from {csv_path} into DuckDB table '{table_name}'...")
         # DuckDB can query CSV directly, but creating a table is cleaner for repeated queries
         self.con.execute(f"CREATE OR REPLACE TABLE {table_name} AS SELECT * FROM read_csv_auto('{csv_path}')")
-        print(f"✅ Data loaded. Schema:")
+        print(f" Data loaded. Schema:")
         print(self.con.execute(f"DESCRIBE {table_name}").fetchdf())
 
     def generate_sql(self, query_text: str) -> str:
-        print(f"🧠 Generating SQL for: '{query_text}'")
+        print(f" Generating SQL for: '{query_text}'")
         
         # Get schema to inform the LLM
         schema_df = self.con.execute("DESCRIBE claims").fetchdf()
@@ -70,12 +70,12 @@ class Text2SQLPipeline:
         return sql_query
 
     def execute_sql(self, sql_query: str) -> pd.DataFrame:
-        print(f"🚀 Executing SQL: {sql_query}")
+        print(f" Executing SQL: {sql_query}")
         try:
             result = self.con.execute(sql_query).fetchdf()
             return result
         except Exception as e:
-            print(f"❌ SQL Execution Failed: {e}")
+            print(f" SQL Execution Failed: {e}")
             return pd.DataFrame({'error': [str(e)]})
 
 if __name__ == "__main__":
@@ -88,4 +88,4 @@ if __name__ == "__main__":
         res = t2s.execute_sql(sql)
         print(res)
     else:
-        print("❌ Gold data not found.")
+        print(" Gold data not found.")
