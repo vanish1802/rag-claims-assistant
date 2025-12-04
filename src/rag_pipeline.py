@@ -17,7 +17,7 @@ class RAGPipeline:
         
         # Check if already indexed
         if self.collection.count() > 0:
-            print(f"⚠️ Collection {self.collection_name} already has {self.collection.count()} documents. Skipping ingestion.")
+            print(f" Collection {self.collection_name} already has {self.collection.count()} documents. Skipping ingestion.")
             return
 
         documents = df['text_representation'].tolist()
@@ -29,7 +29,7 @@ class RAGPipeline:
             for k, v in meta.items():
                 meta[k] = str(v)
 
-        print("🧠 Generating embeddings...")
+        print(" Generating embeddings...")
         embeddings = self.model.encode(documents).tolist()
         
         print("💾 Storing in Vector DB...")
@@ -39,7 +39,7 @@ class RAGPipeline:
             metadatas=metadatas,
             ids=ids
         )
-        print(f"✅ Indexed {len(documents)} documents.")
+        print(f" Indexed {len(documents)} documents.")
 
     def query(self, query_text: str, n_results: int = 5) -> Dict:
         print(f"🔍 Querying RAG for: '{query_text}'")
@@ -93,4 +93,4 @@ if __name__ == "__main__":
         answer = rag.generate_answer("Why were claims for diabetes denied?", results)
         print("\nGenerated Answer:", answer)
     else:
-        print("❌ Gold data not found. Run ETL first.")
+        print(" Gold data not found. Run ETL first.")
