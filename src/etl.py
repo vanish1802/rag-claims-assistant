@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 def process_bronze_to_silver():
-    print("🔄 Processing Bronze to Silver...")
+    print(" Processing Bronze to Silver...")
     
     # Load Bronze Data
     df1 = pd.read_csv('data/bronze/insurance_company_1_claims.csv')
@@ -59,7 +59,7 @@ def process_bronze_to_silver():
     # Save Silver
     output_path = 'data/silver/claims_normalized.csv'
     df_silver.to_csv(output_path, index=False)
-    print(f"✅ Silver data saved to {output_path} ({len(df_silver)} records)")
+    print(f" Silver data saved to {output_path} ({len(df_silver)} records)")
     return df_silver
 
 def process_silver_to_gold(df_silver):
@@ -83,7 +83,7 @@ def process_silver_to_gold(df_silver):
     # Save Gold
     output_path = 'data/gold/claims_master.csv'
     df_gold.to_csv(output_path, index=False)
-    print(f"✅ Gold data saved to {output_path}")
+    print(f" Gold data saved to {output_path}")
     
     # Also save a sample for quick inspection
     print("\nSample Gold Data (Text Representation):")
